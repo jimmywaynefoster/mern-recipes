@@ -10,8 +10,8 @@ import { logout } from "./../auth/api-auth";
 import useAuthentication from "./../auth/useAuthentication";
 
 const isActive = (history, path) => {
-  if (history.location.pathname == path) return { color: "#ff4081" };
-  else return { color: "#ffffff" };
+  if (history.location.pathname == path) return { color: "#000" };
+  else return { color: "#aaa" };
 };
 const Menu = withRouter(({ history, location }) => {
   const [user] = useAuthentication(location);
