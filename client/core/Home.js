@@ -1,34 +1,31 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import unicornbikeImg from "./../assets/images/unicornbike.jpg";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import logo from "./../assets/images/my-recipies-logo.png";
 
 const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 600,
-    margin: "auto",
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(5),
+  main: {
+    backgroundColor: theme.palette.primary.main,
+    width: "100%",
+    maxWidth: "100%",
+    minHeight: "100vh",
   },
-  title: {
-    padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
-      2
-    )}px`,
-    color: theme.palette.openTitle,
+  logo: {
+    width: "200px",
+    marginTop: theme.spacing(4),
   },
-  media: {
-    minHeight: 400,
-  },
-  credit: {
-    padding: 10,
-    textAlign: "right",
-    backgroundColor: "#ededed",
-    borderBottom: "1px solid #d0d0d0",
-    "& a": {
-      color: "#3f4771",
+  button: {
+    margin: `${theme.spacing(4)}px ${theme.spacing(2)}px`,
+    width: "128px",
+    height: "44px",
+    color: "#000",
+    border: "none",
+    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='3.5' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    borderRadius: "22px",
+    "&:hover": {
+      border: "none",
+      backgroundColor: "rgba(255, 255, 251, 0.3)",
     },
   },
 }));
@@ -36,36 +33,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   return (
-    <Card className={classes.card}>
-      <Typography variant="h6" className={classes.title}>
-        Home Page
-      </Typography>
-      <CardMedia
-        className={classes.media}
-        image={unicornbikeImg}
-        title="Unicorn Bicycle"
-      />
-      <Typography
-        variant="body2"
-        component="p"
-        className={classes.credit}
-        color="textSecondary"
-      >
-        Photo by{" "}
-        <a
-          href="https://unsplash.com/@boudewijn_huysmans"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Boudewijn Huysmans
-        </a>{" "}
-        on Unsplash
-      </Typography>
-      <CardContent>
-        <Typography variant="body1" component="p">
-          Welcome to the MERN Skeleton home page.
-        </Typography>
-      </CardContent>
-    </Card>
+    <div className={classes.main}>
+      <Grid container justify="center">
+        <Grid item>
+          <img className={classes.logo} src={logo} />
+        </Grid>
+        <Grid container item justify="center">
+          <Button className={classes.button} color="primary">
+            Register
+          </Button>
+          <Button className={classes.button} color="primary">
+            Log in
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
   );
 }

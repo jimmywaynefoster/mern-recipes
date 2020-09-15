@@ -10,10 +10,10 @@ import Profile from "./user/Profile";
 import PrivateRoute from "./auth/PrivateRoute";
 import Menu from "./core/Menu";
 
-const MainRouter = withRouter(() => {
+const MainRouter = withRouter(({ location }) => {
   return (
     <div>
-      <Menu />
+      {location.pathname != "/" && <Menu />}
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/users" component={Users} />
