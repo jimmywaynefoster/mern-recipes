@@ -40,6 +40,20 @@ const useStyles = makeStyles((theme) => ({
     height: "44px",
     paddingLeft: theme.spacing(4),
   },
+  quantity: {
+    width: `${4 * 20}px`,
+    height: "44px",
+    paddingLeft: theme.spacing(4),
+    paddingRight: 0,
+    "& input": {
+      maxWidth: 40,
+    },
+  },
+  ingredientInput: {
+    "& div": {
+      marginRight: theme.spacing(2),
+    },
+  },
   multilineMobile: {
     width: `${4 * 82}px`,
     height: `${24 * 5 + 8}px`,
@@ -116,11 +130,29 @@ export default function CreateRecipe() {
           className={classes.servings}
           classes={{ root: classes.textInput, focused: classes.focused }}
           type="number"
-          inputProps={{ "aria-label": "name" }}
+          inputProps={{ "aria-label": "servings" }}
           endAdornment={
             <InputAdornment position="end">Servings</InputAdornment>
           }
         />
+        <Typography className={classes.title} variant="h5" gutterBottom>
+          Ingredients
+        </Typography>
+        <Grid container className={classes.ingredientInput}>
+          <InputBase
+            className={classes.textField}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            inputProps={{ "aria-label": "name" }}
+            placeholder="Ingredient"
+          />
+          <InputBase
+            className={classes.quantity}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            type="number"
+            inputProps={{ "aria-label": "quantity" }}
+            placeholder="Qty"
+          />
+        </Grid>
       </Grid>
     </Container>
   );
