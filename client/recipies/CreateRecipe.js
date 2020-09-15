@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -34,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
     width: `100%`,
     height: `${24 * 5 + 8}px`,
   },
+  servings: {
+    width: `${4 * 40}px`,
+    height: "44px",
+    paddingLeft: theme.spacing(4),
+  },
   multilineMobile: {
     width: `${4 * 82}px`,
     height: `${24 * 5 + 8}px`,
@@ -60,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   filename: {
-    marginLeft: "10px",
+    marginLeft: theme.spacing(3),
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -73,35 +80,48 @@ export default function CreateRecipe() {
       <Typography className={classes.title} variant="h4" gutterBottom>
         Create Recipe
       </Typography>
-      <InputBase
-        className={classes.textField}
-        classes={{ root: classes.textInput, focused: classes.focused }}
-        inputProps={{ "aria-label": "name" }}
-        startAdornment={<InputAdornment position="start">Name:</InputAdornment>}
-      />
-      <InputBase
-        className={isMobile ? classes.multilineMobile : classes.multiline}
-        classes={{ root: classes.textInput, focused: classes.focused }}
-        inputProps={{ "aria-label": "description" }}
-        multiline
-        rows={5}
-        placeholder="Description"
-      />
-      <input
-        accept="image/*"
-        //onChange={handleChange("photo")}
-        className={classes.input}
-        id="icon-button-file"
-        type="file"
-      />
-      <label htmlFor="icon-button-file">
-        <Button className={classes.uploadButton} component="span">
-          Upload <FileUpload />
-        </Button>
-      </label>{" "}
-      <span className={classes.filename}>
-        {/*values.photo ? values.photo.name : ""*/}photo.jpg
-      </span>
+      <Grid container direction="column">
+        <InputBase
+          className={classes.textField}
+          classes={{ root: classes.textInput, focused: classes.focused }}
+          inputProps={{ "aria-label": "name" }}
+          startAdornment={
+            <InputAdornment position="start">Name:</InputAdornment>
+          }
+        />
+        <InputBase
+          className={isMobile ? classes.multilineMobile : classes.multiline}
+          classes={{ root: classes.textInput, focused: classes.focused }}
+          inputProps={{ "aria-label": "description" }}
+          multiline
+          rows={5}
+          placeholder="Description"
+        />
+        <input
+          accept="image/*"
+          //onChange={handleChange("photo")}
+          className={classes.input}
+          id="icon-button-file"
+          type="file"
+        />
+        <label htmlFor="icon-button-file">
+          <Button className={classes.uploadButton} component="span">
+            Upload <FileUpload />
+          </Button>
+        </label>{" "}
+        <span className={classes.filename}>
+          {/*values.photo ? values.photo.name : ""*/}photo.jpg
+        </span>
+        <InputBase
+          className={classes.servings}
+          classes={{ root: classes.textInput, focused: classes.focused }}
+          type="number"
+          inputProps={{ "aria-label": "name" }}
+          endAdornment={
+            <InputAdornment position="end">Servings</InputAdornment>
+          }
+        />
+      </Grid>
     </Container>
   );
 }
