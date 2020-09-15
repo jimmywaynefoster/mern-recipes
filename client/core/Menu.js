@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -25,16 +26,30 @@ const useStyles = makeStyles((theme) => ({
 const Menu = withRouter(({ history, location }) => {
   const classes = useStyles();
 
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <img className={classes.logo} src={logo} />
-          <IconButton edge="end" color="inherit" aria-label="menu">
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer}
+          >
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
+      <Drawer anchor="right" open={open} onClose={toggleDrawer}>
+        asdASDFASDAS
+      </Drawer>
     </div>
   );
 });
