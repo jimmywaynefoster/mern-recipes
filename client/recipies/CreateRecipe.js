@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
+import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import { useMediaQuery } from "react-responsive";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +43,25 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(255, 255, 255, 1)",
     backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
   },
+  uploadButton: {
+    margin: `${theme.spacing(1)}px 0`,
+    width: "142px",
+    height: "44px",
+    color: "#000",
+    border: "none",
+    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    borderRadius: "22px",
+    "&:hover": {
+      border: "none",
+      backgroundColor: "rgba(255, 255, 251, 0.3)",
+    },
+  },
+  input: {
+    display: "none",
+  },
+  filename: {
+    marginLeft: "10px",
+  },
 }));
 
 export default function CreateRecipe() {
@@ -66,6 +87,21 @@ export default function CreateRecipe() {
         rows={5}
         placeholder="Description"
       />
+      <input
+        accept="image/*"
+        //onChange={handleChange("photo")}
+        className={classes.input}
+        id="icon-button-file"
+        type="file"
+      />
+      <label htmlFor="icon-button-file">
+        <Button className={classes.uploadButton} component="span">
+          Upload <FileUpload />
+        </Button>
+      </label>{" "}
+      <span className={classes.filename}>
+        {/*values.photo ? values.photo.name : ""*/}photo.jpg
+      </span>
     </Container>
   );
 }
