@@ -7,6 +7,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import logo from "./../assets/images/my-recipies-logo.png";
 import defaultRecipe from "./../assets/images/default-recipe.jpg";
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
   },
   button: {
-    margin: `${theme.spacing(4)}px ${theme.spacing(2)}px`,
+    margin: `${theme.spacing(4)}px ${theme.spacing(2)}px ${theme.spacing(3)}px`,
     width: "128px",
     height: "44px",
     color: "#000",
@@ -64,50 +65,38 @@ export default function Home() {
           </Button>
         </Grid>
       </Grid>
-      <Grid container justify="center">
-        <Card className={classes.card}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt="Recipe"
-              height="212"
-              image={defaultRecipe}
-              title="Recipe"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Lizard
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-        <Card className={classes.card}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt="Recipe"
-              height="212"
-              image={defaultRecipe}
-              title="Recipe"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Lizard
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
+      <Container maxWidth="lg">
+        <Grid container justify="center">
+          {[1, 2, 3, 4, 5].map((item, index) => (
+            <Card className={classes.card} key={index}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  alt="Recipe"
+                  height="212"
+                  image={defaultRecipe}
+                  title="Recipe"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Lizard
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Lizards are a widespread group of squamate reptiles, with
+                    over 6,000 species, ranging across all continents except
+                    Antarctica
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
+        </Grid>
+      </Container>
     </div>
   );
 }
