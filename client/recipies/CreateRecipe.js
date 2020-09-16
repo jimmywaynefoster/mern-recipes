@@ -1,13 +1,60 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import { useMediaQuery } from "react-responsive";
+
+const BootstrapInput = withStyles((theme) => ({
+  root: {
+    height: "44px",
+    margin: `${theme.spacing(1)}px 0 `,
+    width: `${4 * 23}px`,
+    "& svg": {
+      transform: "translateX(-8px)",
+    },
+  },
+
+  input: {
+    height: "19px",
+    padding: `12px 0 13px 24px`,
+    backgroundColor: "rgba(255, 255, 249, 1)",
+    borderRadius: 22,
+    position: "relative",
+    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    fontSize: 16,
+    transition: theme.transitions.create(["border-color", "box-shadow"]),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    "&:hover": {
+      border: "none",
+      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    },
+    "&:focus": {
+      border: "none",
+      backgroundColor: "rgba(255, 255, 255, 1)",
+      borderRadius: 22,
+    },
+  },
+}))(InputBase);
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -50,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ingredientInput: {
-    "& div": {
+    "&>div": {
       marginRight: theme.spacing(2),
     },
   },
@@ -152,6 +199,27 @@ export default function CreateRecipe() {
             inputProps={{ "aria-label": "quantity" }}
             placeholder="Qty"
           />
+          <FormControl>
+            <Select
+              labelId="demo-customized-select-label"
+              id="demo-customized-select"
+              value={"unit"}
+              //onChange={handleChange}
+              input={<BootstrapInput />}
+            >
+              <MenuItem value="unit">unit</MenuItem>
+              <MenuItem value="kg">kg</MenuItem>
+              <MenuItem value="g">g</MenuItem>
+              <MenuItem value="lb">lb</MenuItem>
+              <MenuItem value="cup">cup</MenuItem>
+              <MenuItem value="l">l</MenuItem>
+              <MenuItem value="ml">ml</MenuItem>
+              <MenuItem value="oz">oz</MenuItem>
+              <MenuItem value="pt">pt</MenuItem>
+              <MenuItem value="tsp">tsp</MenuItem>
+              <MenuItem value="tbsp">tbsp</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
       </Grid>
     </Container>
