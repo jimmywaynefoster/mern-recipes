@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   main: {
     marginTop: theme.spacing(4),
   },
+  title: {
+    color: "#866d57",
+  },
   image: {
     width: "100%",
     borderRadius: 32,
@@ -21,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   card: {
-    //margin: theme.spacing(2),
     padding: theme.spacing(5),
     width: "100%",
     borderRadius: 32,
@@ -38,8 +40,8 @@ export default function Recipe() {
           <img className={classes.image} src={defaultRecipe} />
         </Grid>
         <Grid item lg={6}>
-          <Typography variant="h3" gutterBottom>
-            Recipe
+          <Typography className={classes.title} variant="h3" gutterBottom>
+            Recipe name
           </Typography>
           <Typography variant="body1" gutterBottom>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

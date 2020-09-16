@@ -9,7 +9,8 @@ import Profile from "./user/Profile";
 import PrivateRoute from "./auth/PrivateRoute";
 import Recipe from "./recipies/Recipe";
 import CreateRecipe from "./recipies/CreateRecipe";
-
+import Insights from "./recipies/Insights";
+import MyRecipes from "./recipies/MyRecipes";
 import Menu from "./core/Menu";
 
 const MainRouter = withRouter(({ location }) => {
@@ -22,6 +23,8 @@ const MainRouter = withRouter(({ location }) => {
         <Route path="/login" component={Login} />
         <Route path="/recipe" component={Recipe} />
         <Route path="/create-recipe" component={CreateRecipe} />
+        <Route path="/insights" component={Insights} />
+        <Route path="/my-recipes" component={MyRecipes} />
         <PrivateRoute path="/user/edit" component={EditProfile} />
         <PrivateRoute path="/user/password" component={ChangePassword} />
         <PrivateRoute path="/profile" component={Profile} />
