@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
   cardTitle: {
     lineHeight: 1,
   },
-  cardDescription: { marginTop: 8 },
 }));
 
 export default function Home() {
@@ -95,10 +94,9 @@ export default function Home() {
                   >
                     Lizard
                   </Typography>
-                  <Typography variant="subtitle">By John Doe</Typography>
+                  <Typography variant="subtitle2">By John Doe</Typography>
                   <br />
                   <Typography
-                    className={classes.cardDescription}
                     variant="body2"
                     color="textSecondary"
                     component="p"
