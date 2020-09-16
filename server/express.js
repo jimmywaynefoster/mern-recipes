@@ -14,6 +14,7 @@ import config from "./../config/config";
 import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import recipeRoutes from "./routes/recipe.routes";
 
 // modules for server side rendering
 import React from "react";
@@ -155,6 +156,7 @@ passport.use(
 // mount routes
 app.use("/", userRoutes);
 app.use("/", authRoutes);
+app.use("/", recipeRoutes);
 
 app.get("*", (req, res) => {
   const sheets = new ServerStyleSheets();
