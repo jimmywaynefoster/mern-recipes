@@ -2,7 +2,7 @@
   "name": "my-recipes-app",
   "version": "1.0.0",
   "description": "A web app to create and save recipes",
-  "author": "Vicente Losada",
+  "author": "",
   "license": "MIT",
   "keywords": [
     "react",
