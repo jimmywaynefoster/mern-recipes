@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import Home from "./core/Home";
-import Users from "./user/Users";
 import Register from "./user/Register";
 import Login from "./auth/Login";
 import EditProfile from "./user/EditProfile";
