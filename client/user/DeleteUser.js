@@ -7,12 +7,26 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
 import { remove } from "./api-user.js";
 import { Redirect } from "react-router-dom";
 import useAuthentication from "./../auth/useAuthentication";
 import ButtonWithAuthDialog from "./../auth/ButtonWithAuthDialog";
 
+const useStyles = makeStyles((theme) => ({
+  cancelButton: {
+    color: "#000",
+    marginBottom: 12,
+  },
+  confirmButton: {
+    color: "#fff",
+    marginBottom: 12,
+    marginRight: 12,
+  },
+}));
+
 export default function DeleteUser(props) {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [user] = useAuthentication(open);
@@ -58,12 +72,19 @@ export default function DeleteUser(props) {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleRequestClose} color="primary">
+            <Button
+              onClick={handleRequestClose}
+              variant="outlined"
+              color="primary"
+              className={classes.cancelButton}
+            >
               Cancel
             </Button>
             <Button
               onClick={deleteAccount}
+              variant="contained"
               color="secondary"
+              className={classes.confirmButton}
               autoFocus="autoFocus"
             >
               Confirm
