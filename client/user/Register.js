@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(2),
+    borderRadius: "40px",
+    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='40' ry='40' stroke='black' stroke-width='4' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
   },
   error: {
     verticalAlign: "middle",
@@ -41,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: "auto",
     marginBottom: theme.spacing(2),
+  },
+  "@media (max-width: 600px)": {
+    card: {
+      maxWidth: 320,
+    },
+    textField: { width: 260 },
   },
 }));
 
@@ -99,6 +107,7 @@ export default function Register() {
           <TextField
             id="name"
             label="Name"
+            color="secondary"
             className={classes.textField}
             value={values.name}
             onChange={handleChange("name")}
@@ -113,6 +122,7 @@ export default function Register() {
             id="email"
             type="email"
             label="Email"
+            color="secondary"
             className={classes.textField}
             value={values.email}
             onChange={handleChange("email")}
@@ -137,6 +147,7 @@ export default function Register() {
             id="password"
             type="password"
             label="Password"
+            color="secondary"
             className={classes.textField}
             value={values.password}
             onChange={handleChange("password")}
