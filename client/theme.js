@@ -3,10 +3,45 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
+    h4: {
+      fontFamily: "Lekton",
+    },
+    h5: {
+      fontFamily: "Lekton",
+    },
+    h6: {
+      fontFamily: "Lekton",
+    },
+    fontFamily: [
+      "Montserrat",
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    fontFamilySubtitle: [
+      "Lekton",
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
   },
   palette: {
     background: {
-      default: "#ffffe9",
+      default: "#f9f3e5",
     },
     primary: {
       light: "#fffffb",
@@ -15,8 +50,8 @@ const theme = createMuiTheme({
       contrastText: "#000",
     },
     secondary: {
-      light: "#ffffe9",
-      main: "#ffffe9",
+      light: "#f9f3e5",
+      main: "#000",
       dark: "#b39d87",
       contrastText: "#000",
     },
