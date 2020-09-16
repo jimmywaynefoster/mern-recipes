@@ -9,12 +9,14 @@ import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
 import { useMediaQuery } from "react-responsive";
 
-const BootstrapInput = withStyles((theme) => ({
+const SelectInput = withStyles((theme) => ({
   root: {
     height: "44px",
     margin: `${theme.spacing(1)}px 0 `,
@@ -57,6 +59,15 @@ const BootstrapInput = withStyles((theme) => ({
     },
   },
 }))(InputBase);
+
+const PrivateCheckbox = withStyles({
+  root: {
+    "&$checked": {
+      color: "#B79B84",
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -137,6 +148,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   addButton: { width: "88px", height: "44px" },
+  saveButton: {
+    marginBottom: theme.spacing(5),
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": { backgroundColor: "#D6BEA7" },
+  },
   input: {
     display: "none",
   },
@@ -146,6 +162,9 @@ const useStyles = makeStyles((theme) => ({
   },
   step: {
     marginBottom: theme.spacing(1),
+  },
+  checkbox: {
+    marginTop: theme.spacing(4),
   },
 }));
 
@@ -231,7 +250,7 @@ export default function CreateRecipe() {
               id="demo-customized-select"
               value={"unit"}
               //onChange={handleChange}
-              input={<BootstrapInput />}
+              input={<SelectInput />}
             >
               <MenuItem value="unit">unit</MenuItem>
               <MenuItem value="kg">kg</MenuItem>
@@ -275,7 +294,7 @@ export default function CreateRecipe() {
               id="demo-customized-select"
               value={"unit"}
               //onChange={handleChange}
-              input={<BootstrapInput />}
+              input={<SelectInput />}
             >
               <MenuItem value="unit">unit</MenuItem>
               <MenuItem value="kg">kg</MenuItem>
@@ -330,6 +349,20 @@ export default function CreateRecipe() {
           startIcon={<AddIcon />}
         >
           Add
+        </Button>
+        <FormControlLabel
+          className={classes.checkbox}
+          control={
+            <PrivateCheckbox
+              //checked={state.checkedG}
+              //onChange={handleChange}
+              name="private"
+            />
+          }
+          label="Private"
+        />
+        <Button className={`${classes.button} ${classes.saveButton}`}>
+          Save recipe
         </Button>
       </Grid>
     </Container>
