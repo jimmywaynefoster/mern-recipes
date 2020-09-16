@@ -68,7 +68,7 @@ export default function Profile() {
             {!isMobile && (
               <ListItemSecondaryAction>
                 <Link to={"/user/edit/"}>
-                  <IconButton aria-label="Edit" color="primary">
+                  <IconButton aria-label="Edit" color="secondary">
                     <Edit />
                   </IconButton>
                 </Link>
