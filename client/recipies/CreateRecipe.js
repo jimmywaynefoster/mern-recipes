@@ -139,6 +139,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   uploadButton: { width: "142px", height: "44px" },
+  uploadLabel: {
+    width: "142px",
+  },
   deleteButton: {
     width: "44px",
     minWidth: "44px",
@@ -201,7 +204,7 @@ export default function CreateRecipe() {
           id="icon-button-file"
           type="file"
         />
-        <label htmlFor="icon-button-file">
+        <label htmlFor="icon-button-file" className={classes.uploadLabel}>
           <Button
             className={`${classes.button} ${classes.uploadButton}`}
             component="span"
