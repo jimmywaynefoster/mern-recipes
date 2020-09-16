@@ -80,7 +80,7 @@ export default function Login(props) {
   };
 
   if (values.redirectToReferrer) {
-    return <Redirect to={props.location.state || "/"} />;
+    return <Redirect to={props.location.state || "/my-recipes"} />;
   }
 
   return (

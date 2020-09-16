@@ -194,7 +194,7 @@ export default function Register() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Link to="/">
+          <Link to="/my-recipes">
             <Button color="primary" autoFocus="autoFocus" variant="contained">
               OK
             </Button>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -65,8 +66,12 @@ export default function Home() {
           <img className={classes.logo} src={logo} />
         </Grid>
         <Grid container item justify="center">
-          <Button className={classes.button}>Register</Button>
-          <Button className={classes.button}>Log in</Button>
+          <Link to="/register">
+            <Button className={classes.button}>Register</Button>
+          </Link>
+          <Link to="/login">
+            <Button className={classes.button}>Log in</Button>
+          </Link>
         </Grid>
       </Grid>
       <Container maxWidth="lg">
