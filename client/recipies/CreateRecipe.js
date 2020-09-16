@@ -101,12 +101,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
   quantity: {
-    width: `${4 * 20}px`,
+    width: `${4 * 23}px`,
     height: "44px",
-    paddingLeft: theme.spacing(4),
+    paddingLeft: 24,
     paddingRight: 0,
     "& input": {
-      maxWidth: 40,
+      maxWidth: 60,
     },
   },
   ingredientInput: {
