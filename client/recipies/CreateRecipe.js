@@ -10,6 +10,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import AddIcon from "@material-ui/icons/Add";
 import { useMediaQuery } from "react-responsive";
 
 const BootstrapInput = withStyles((theme) => ({
@@ -58,7 +60,7 @@ const BootstrapInput = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2),
   },
   textInput: {
@@ -101,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(2),
     },
   },
+  ingredientInputMobile: { marginBottom: theme.spacing(2) },
   multilineMobile: {
     width: `${4 * 82}px`,
     height: `${24 * 5 + 8}px`,
@@ -110,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(255, 255, 255, 1)",
     backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
   },
-  uploadButton: {
+  button: {
     margin: `${theme.spacing(1)}px 0`,
     width: "142px",
     height: "44px",
@@ -120,14 +123,28 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "22px",
     "&:hover": {
       border: "none",
-      backgroundColor: "rgba(255, 255, 251, 0.3)",
+      backgroundColor: "rgba(255, 255, 251, 0.8)",
+      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
     },
   },
+  uploadButton: { width: "142px", height: "44px" },
+  deleteButton: {
+    width: "44px",
+    minWidth: "44px",
+    height: "44px",
+    "& span": {
+      width: "min-content",
+    },
+  },
+  addButton: { width: "88px", height: "44px" },
   input: {
     display: "none",
   },
   filename: {
     marginLeft: theme.spacing(3),
+    marginBottom: theme.spacing(1),
+  },
+  step: {
     marginBottom: theme.spacing(1),
   },
 }));
@@ -166,8 +183,12 @@ export default function CreateRecipe() {
           type="file"
         />
         <label htmlFor="icon-button-file">
-          <Button className={classes.uploadButton} component="span">
-            Upload <FileUpload />
+          <Button
+            className={`${classes.button} ${classes.uploadButton}`}
+            component="span"
+            endIcon={<FileUpload />}
+          >
+            Upload
           </Button>
         </label>{" "}
         <span className={classes.filename}>
@@ -182,10 +203,15 @@ export default function CreateRecipe() {
             <InputAdornment position="end">Servings</InputAdornment>
           }
         />
-        <Typography className={classes.title} variant="h5" gutterBottom>
+        <Typography className={classes.title} variant="h5">
           Ingredients
         </Typography>
-        <Grid container className={classes.ingredientInput}>
+        <Grid
+          container
+          className={`${classes.ingredientInput} ${
+            isMobile && classes.ingredientInputMobile
+          }`}
+        >
           <InputBase
             className={classes.textField}
             classes={{ root: classes.textInput, focused: classes.focused }}
@@ -220,7 +246,91 @@ export default function CreateRecipe() {
               <MenuItem value="tbsp">tbsp</MenuItem>
             </Select>
           </FormControl>
+          <Button className={`${classes.button} ${classes.deleteButton}`}>
+            <DeleteForeverIcon />
+          </Button>
         </Grid>
+        <Grid
+          container
+          className={`${classes.ingredientInput} ${
+            isMobile && classes.ingredientInputMobile
+          }`}
+        >
+          <InputBase
+            className={classes.textField}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            inputProps={{ "aria-label": "name" }}
+            placeholder="Ingredient"
+          />
+          <InputBase
+            className={classes.quantity}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            type="number"
+            inputProps={{ "aria-label": "quantity" }}
+            placeholder="Qty"
+          />
+          <FormControl>
+            <Select
+              labelId="demo-customized-select-label"
+              id="demo-customized-select"
+              value={"unit"}
+              //onChange={handleChange}
+              input={<BootstrapInput />}
+            >
+              <MenuItem value="unit">unit</MenuItem>
+              <MenuItem value="kg">kg</MenuItem>
+              <MenuItem value="g">g</MenuItem>
+              <MenuItem value="lb">lb</MenuItem>
+              <MenuItem value="cup">cup</MenuItem>
+              <MenuItem value="l">l</MenuItem>
+              <MenuItem value="ml">ml</MenuItem>
+              <MenuItem value="oz">oz</MenuItem>
+              <MenuItem value="pt">pt</MenuItem>
+              <MenuItem value="tsp">tsp</MenuItem>
+              <MenuItem value="tbsp">tbsp</MenuItem>
+            </Select>
+          </FormControl>
+          <Button className={`${classes.button} ${classes.deleteButton}`}>
+            <DeleteForeverIcon />
+          </Button>
+        </Grid>
+        <Button
+          className={`${classes.button} ${classes.addButton}`}
+          startIcon={<AddIcon />}
+        >
+          Add
+        </Button>
+        <Typography className={classes.title} variant="h5">
+          Steps
+        </Typography>
+        <div className={classes.step}>
+          <Typography variant="h6">Step 1</Typography>
+          <InputBase
+            className={isMobile ? classes.multilineMobile : classes.multiline}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            inputProps={{ "aria-label": "description" }}
+            multiline
+            rows={5}
+            placeholder="Write directions..."
+          />
+        </div>
+        <div className={classes.step}>
+          <Typography variant="h6">Step 2</Typography>
+          <InputBase
+            className={isMobile ? classes.multilineMobile : classes.multiline}
+            classes={{ root: classes.textInput, focused: classes.focused }}
+            inputProps={{ "aria-label": "description" }}
+            multiline
+            rows={5}
+            placeholder="Write directions..."
+          />
+        </div>
+        <Button
+          className={`${classes.button} ${classes.addButton}`}
+          startIcon={<AddIcon />}
+        >
+          Add
+        </Button>
       </Grid>
     </Container>
   );
