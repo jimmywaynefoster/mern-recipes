@@ -15,7 +15,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link, withRouter } from "react-router-dom";
 import logo from "./../assets/images/my-recipies-logo.png";
 import { logout } from "./../auth/api-auth";
-import useAuthentication from "./../auth/useAuthentication";
+
+const isActive = (history, path) => {
+  if (history.location.pathname == path) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     paddingLeft: theme.spacing(3),
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.secondary.main,
+  },
+  active: {
+    "& span": {
+      fontWeight: 600,
+    },
   },
 }));
 
@@ -90,24 +106,74 @@ const Menu = withRouter(({ history, location }) => {
         </IconButton>
 
         <List className={classes.list}>
-          <ListItem button className={classes.listItem}>
-            <ListItemIcon className={classes.listIcon}>
-              <AccountCircleIcon className={classes.profileIcon} />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
+          <Link
+            to="/profile"
+            className={`${classes.link} ${
+              isActive(history, "/profile") && classes.active
+            }`}
+          >
+            <ListItem
+              button
+              className={classes.listItem}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <ListItemIcon className={classes.listIcon}>
+                <AccountCircleIcon className={classes.profileIcon} />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+          </Link>
           <br />
-          <ListItem button className={classes.listItem}>
-            <ListItemText primary="My recipes" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemText primary="Create recipe" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemText primary="Insights" />
-          </ListItem>
+          <Link to="/my-recipes" className={classes.link}>
+            <ListItem
+              button
+              className={`${classes.listItem} ${
+                isActive(history, "/my-recipes") && classes.active
+              }`}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <ListItemText primary="My recipes" />
+            </ListItem>
+          </Link>
+          <Link to="/create-recipe" className={classes.link}>
+            <ListItem
+              button
+              className={`${classes.listItem} ${
+                isActive(history, "/create-recipe") && classes.active
+              }`}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <ListItemText primary="Create recipe" />
+            </ListItem>
+          </Link>
+          <Link to="/insights" className={classes.link}>
+            <ListItem
+              button
+              className={`${classes.listItem} ${
+                isActive(history, "/insights") && classes.active
+              }`}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <ListItemText primary="Insights" />
+            </ListItem>
+          </Link>
           <Divider />
-          <ListItem button className={classes.listItem}>
+          <ListItem
+            button
+            className={classes.listItem}
+            onClick={() => {
+              logout();
+              history.push("/");
+            }}
+          >
             <ListItemText primary="Log out" />
           </ListItem>
         </List>
@@ -117,57 +183,3 @@ const Menu = withRouter(({ history, location }) => {
 });
 
 export default Menu;
-
-// const isActive = (history, path) => {
-//   if (history.location.pathname == path) return { color: "#000" };
-//   else return { color: "#aaa" };
-// };
-// const Menu = withRouter(({ history, location }) => {
-//   const [user] = useAuthentication(location);
-
-//   return (
-//     <AppBar position="static">
-//       <Toolbar>
-//         <Typography variant="h6" color="inherit">
-//           MERN Skeleton
-//         </Typography>
-//         <Link to="/">
-//           <IconButton aria-label="Home" style={isActive(history, "/")}>
-//             <HomeIcon />
-//           </IconButton>
-//         </Link>
-//         <Link to="/users">
-//           <Button style={isActive(history, "/users")}>Users</Button>
-//         </Link>
-//         {!user && (
-//           <span>
-//             <Link to="/register">
-//               <Button style={isActive(history, "/register")}>Register</Button>
-//             </Link>
-//             <Link to="/login">
-//               <Button style={isActive(history, "/login")}>Log In</Button>
-//             </Link>
-//           </span>
-//         )}
-//         {user && (
-//           <span>
-//             <Link to={"/profile"}>
-//               <Button style={isActive(history, "/profile")}>My Profile</Button>
-//             </Link>
-//             <Button
-//               color="inherit"
-//               onClick={() => {
-//                 logout();
-//                 history.push("/");
-//               }}
-//             >
-//               Log out
-//             </Button>
-//           </span>
-//         )}
-//       </Toolbar>
-//     </AppBar>
-//   );
-// });
-
-// export default Menu;
