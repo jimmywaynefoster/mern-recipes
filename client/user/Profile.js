@@ -81,7 +81,7 @@ export default function Profile() {
               <Link to={"/user/password/"}>Change Password</Link>
               <ListItemSecondaryAction>
                 <Link to={"/user/edit/"}>
-                  <IconButton aria-label="Edit" color="primary">
+                  <IconButton aria-label="Edit" color="secondary">
                     <Edit />
                   </IconButton>
                 </Link>
