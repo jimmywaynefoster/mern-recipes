@@ -10,10 +10,12 @@ library.add(fab);
 
 const useStyles = makeStyles((theme) => ({
   button: {
+    color: "#fff !important",
     margin: theme.spacing(1),
-    width: "220px",
+    width: "240px",
   },
   google: {
+    color: "fff",
     backgroundColor: "#DB4437",
     "&:hover": {
       backgroundColor: "#c23c30",
