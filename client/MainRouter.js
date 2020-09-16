@@ -19,7 +19,6 @@ const MainRouter = withRouter(({ location }) => {
       {location.pathname != "/" && <Menu />}
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/users" component={Users} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/recipe" component={Recipe} />
