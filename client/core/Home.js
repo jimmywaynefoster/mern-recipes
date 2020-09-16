@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "22px",
     "&:hover": {
       border: "none",
+      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
       backgroundColor: "rgba(255, 255, 251, 0.3)",
     },
   },
@@ -42,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "40px",
     backgroundColor: theme.palette.secondary.main,
     backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='40' ry='40' stroke='black' stroke-width='4' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    "&:hover": {
+      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='40' ry='40' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+    },
   },
   media: {
     clipPath: "inset(12px 12px 0px 12px round 28px 28px 0px 0px)",
@@ -57,12 +61,8 @@ export default function Home() {
           <img className={classes.logo} src={logo} />
         </Grid>
         <Grid container item justify="center">
-          <Button className={classes.button} color="primary">
-            Register
-          </Button>
-          <Button className={classes.button} color="primary">
-            Log in
-          </Button>
+          <Button className={classes.button}>Register</Button>
+          <Button className={classes.button}>Log in</Button>
         </Grid>
       </Grid>
       <Container maxWidth="lg">
