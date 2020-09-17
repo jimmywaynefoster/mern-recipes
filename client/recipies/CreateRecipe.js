@@ -157,6 +157,9 @@ const useStyles = makeStyles((theme) => ({
   step: {
     marginBottom: theme.spacing(1),
   },
+  stepTitle: {
+    marginRight: 12,
+  },
   checkbox: {
     marginTop: theme.spacing(4),
   },
@@ -175,32 +178,28 @@ export default function CreateRecipe() {
     private: true,
   });
 
+  const handleChange = (name) => (event) => {
+    if (name == "private") {
+      setValues({ ...values, private: event.target.checked });
+    } else {
+      setValues({ ...values, [name]: event.target.value });
+    }
+  };
+
   const [ingredients, setIngredients] = useState([
     { ingredient: "", quantity: "", unit: "unit" },
   ]);
 
   const handleIngredientChange = (name, index) => (event) => {
-    // console.log(event.target.value);
-    // console.log(name);
-    // console.log(changedIngredientIndex);
     let newArr = ingredients.map((item, i) => {
       if (index == i) {
-        //console.log({ ...item, [name]: event.target.value });
         return { ...item, [name]: event.target.value };
       } else {
         return item;
       }
     });
     setIngredients(newArr);
-    console.log(ingredients);
   };
-  //   let newArr = ingredients.map((ingredient, index) => {
-  //     if (changedIngredientIndex == index) {
-  //       console.log(index);
-  //     }
-  //   });
-  //   //  setIngredients([...ingredients]);
-  // };
 
   const handleAddIngredient = () => {
     setIngredients(
@@ -212,12 +211,25 @@ export default function CreateRecipe() {
     setIngredients(ingredients.filter((item, i) => i != index));
   };
 
-  const handleChange = (name) => (event) => {
-    if (name == "private") {
-      setValues({ ...values, private: event.target.checked });
-    } else {
-      setValues({ ...values, [name]: event.target.value });
-    }
+  const [steps, setSteps] = useState([""]);
+
+  const handleStepChange = (index) => (event) => {
+    let newArr = steps.map((item, i) => {
+      if (index == i) {
+        return event.target.value;
+      } else {
+        return item;
+      }
+    });
+    setSteps(newArr);
+  };
+
+  const handleAddStep = () => {
+    setSteps(steps.concat(""));
+  };
+
+  const handleDeleteStep = (index) => {
+    setSteps(steps.filter((item, i) => i != index));
   };
 
   return (
@@ -226,6 +238,7 @@ export default function CreateRecipe() {
         Create Recipe
       </Typography>
       <Grid container direction="column">
+        {/* ////////////RECIPE NAME//////////// */}
         <InputBase
           id="name"
           value={values.name}
@@ -237,6 +250,7 @@ export default function CreateRecipe() {
             <InputAdornment position="start">Name:</InputAdornment>
           }
         />
+        {/* ////////////DESCRIPTION//////////// */}
         <InputBase
           id="description"
           value={values.description}
@@ -248,6 +262,7 @@ export default function CreateRecipe() {
           rows={5}
           placeholder="Description"
         />
+        {/* ////////////UPLOAD PHOTO//////////// */}
         <input
           accept="image/*"
           //onChange={handleChange("photo")}
@@ -267,6 +282,7 @@ export default function CreateRecipe() {
         <span className={classes.filename}>
           {/*values.photo ? values.photo.name : ""*/}photo.jpg
         </span>
+        {/* ////////////SERVINGS//////////// */}
         <InputBase
           id="servings"
           value={values.servings}
@@ -329,12 +345,14 @@ export default function CreateRecipe() {
                 <MenuItem value="tbsp">tbsp</MenuItem>
               </Select>
             </FormControl>
-            <Button
-              onClick={() => handleDeleteIngredient(index)}
-              className={`${classes.button} ${classes.deleteButton}`}
-            >
-              <DeleteForeverIcon />
-            </Button>
+            {ingredients.length > 1 && (
+              <Button
+                onClick={() => handleDeleteIngredient(index)}
+                className={`${classes.button} ${classes.deleteButton}`}
+              >
+                <DeleteForeverIcon />
+              </Button>
+            )}
           </Grid>
         ))}
         <Button
@@ -344,37 +362,45 @@ export default function CreateRecipe() {
         >
           Add
         </Button>
+        {/* ////////////STEPS//////////// */}
         <Typography className={classes.title} variant="h5">
           Steps
         </Typography>
-        <div className={classes.step}>
-          <Typography variant="h6">Step 1</Typography>
-          <InputBase
-            className={isMobile ? classes.multilineMobile : classes.multiline}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            inputProps={{ "aria-label": "description" }}
-            multiline
-            rows={5}
-            placeholder="Write directions..."
-          />
-        </div>
-        <div className={classes.step}>
-          <Typography variant="h6">Step 2</Typography>
-          <InputBase
-            className={isMobile ? classes.multilineMobile : classes.multiline}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            inputProps={{ "aria-label": "description" }}
-            multiline
-            rows={5}
-            placeholder="Write directions..."
-          />
-        </div>
+        {steps.map((item, index) => (
+          <div className={classes.step} key={index}>
+            <Grid container alignItems="center">
+              <Typography className={classes.stepTitle} variant="h6">
+                Step {index + 1}
+              </Typography>
+              {steps.length > 1 && (
+                <Button
+                  onClick={() => handleDeleteStep(index)}
+                  className={`${classes.button} ${classes.deleteButton}`}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              )}
+            </Grid>
+            <InputBase
+              onChange={handleStepChange(index)}
+              value={item}
+              className={isMobile ? classes.multilineMobile : classes.multiline}
+              classes={{ root: classes.textInput, focused: classes.focused }}
+              inputProps={{ "aria-label": "step" }}
+              multiline
+              rows={5}
+              placeholder="Write directions..."
+            />
+          </div>
+        ))}
         <Button
+          onClick={handleAddStep}
           className={`${classes.button} ${classes.addButton}`}
           startIcon={<AddIcon />}
         >
           Add
         </Button>
+        {/* ////////////PRIVATE AND SAVE//////////// */}
         <FormControlLabel
           className={classes.checkbox}
           control={
