@@ -14,6 +14,10 @@ import MyRecipes from "./recipies/MyRecipes";
 import Menu from "./core/Menu";
 
 const MainRouter = withRouter(({ location }) => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, [location]);
   return (
     <div>
       {location.pathname != "/" && <Menu />}
