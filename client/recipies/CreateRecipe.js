@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Icon from "@material-ui/core/Icon";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
@@ -166,6 +167,10 @@ const useStyles = makeStyles((theme) => ({
   checkbox: {
     marginTop: theme.spacing(4),
   },
+  errorIcon: {
+    verticalAlign: "middle",
+    marginRight: 4,
+  },
 }));
 
 export default function CreateRecipe() {
@@ -236,17 +241,7 @@ export default function CreateRecipe() {
     setSteps(steps.filter((item, i) => i != index));
   };
 
-  const clickSubmit = () => {
-    const recipe = {
-      name: values.name || undefined,
-      description: values.description || undefined,
-      // photo:,
-      servings: values.servings || undefined,
-      ingredients: ingredients || undefined,
-      steps: steps || undefined,
-      private: values.private,
-    };
-
+  function checkFilledFields() {
     let ingrBoolArr = ingredients.map((item) =>
       item.name && item.quantity ? true : false
     );
@@ -259,7 +254,32 @@ export default function CreateRecipe() {
     let isStepFilled =
       steps.length == 1 ? steps[0] : steps.reduce((acc, cur) => acc && cur);
 
-    if (values.name && values.servings && isIngrFilled && isStepFilled) {
+    return Boolean(isIngrFilled && isStepFilled);
+  }
+
+  useEffect(() => {
+    if (
+      values.name &&
+      values.servings &&
+      checkFilledFields() &&
+      values.submitClicked
+    ) {
+      setValues({ ...values, submitClicked: false });
+    }
+  }, [values, ingredients, steps]);
+
+  const clickSubmit = () => {
+    const recipe = {
+      name: values.name || undefined,
+      description: values.description || undefined,
+      // photo:,
+      servings: values.servings || undefined,
+      ingredients: ingredients || undefined,
+      steps: steps || undefined,
+      private: values.private,
+    };
+
+    if (values.name && values.servings && checkFilledFields()) {
       createRecipe(recipe).then((data) => {
         if (data.err) {
           console.log(data.err);
@@ -464,6 +484,14 @@ export default function CreateRecipe() {
           }
           label="Private"
         />
+        {values.submitClicked && (
+          <Typography component="p" color="error">
+            <Icon color="error" className={classes.errorIcon}>
+              error
+            </Icon>
+            Some required fields are empty
+          </Typography>
+        )}
         <Button
           onClick={clickSubmit}
           className={`${classes.button} ${classes.saveButton}`}
