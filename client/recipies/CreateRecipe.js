@@ -15,6 +15,7 @@ import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
 import { useMediaQuery } from "react-responsive";
+import { createRecipe } from "./api-recipes";
 
 const SelectInput = withStyles((theme) => ({
   root: {
@@ -173,8 +174,6 @@ export default function CreateRecipe() {
     name: "",
     description: "",
     servings: "",
-    ingredients: [],
-    steps: [],
     private: true,
   });
 
@@ -187,7 +186,7 @@ export default function CreateRecipe() {
   };
 
   const [ingredients, setIngredients] = useState([
-    { ingredient: "", quantity: "", unit: "unit" },
+    { name: "", quantity: "", unit: "unit" },
   ]);
 
   const handleIngredientChange = (name, index) => (event) => {
@@ -203,7 +202,7 @@ export default function CreateRecipe() {
 
   const handleAddIngredient = () => {
     setIngredients(
-      ingredients.concat({ ingredient: "", quantity: "", unit: "unit" })
+      ingredients.concat({ name: "", quantity: "", unit: "unit" })
     );
   };
 
@@ -230,6 +229,26 @@ export default function CreateRecipe() {
 
   const handleDeleteStep = (index) => {
     setSteps(steps.filter((item, i) => i != index));
+  };
+
+  const clickSubmit = () => {
+    const recipe = {
+      name: values.name || undefined,
+      description: values.description || undefined,
+      // photo:,
+      servings: values.servings || undefined,
+      ingredients: ingredients || undefined,
+      steps: steps || undefined,
+      private: values.private,
+    };
+
+    createRecipe(recipe).then((data) => {
+      if (data.err) {
+        console.log(data.err);
+      } else {
+        //setValues({ ...values, redirectToProfile: true });
+      }
+    });
   };
 
   return (
@@ -308,8 +327,8 @@ export default function CreateRecipe() {
             }`}
           >
             <InputBase
-              onChange={handleIngredientChange("ingredient", index)}
-              value={item.ingredient}
+              onChange={handleIngredientChange("name", index)}
+              value={item.name}
               className={classes.textField}
               classes={{ root: classes.textInput, focused: classes.focused }}
               inputProps={{ "aria-label": "ingredient" }}
@@ -414,7 +433,10 @@ export default function CreateRecipe() {
           }
           label="Private"
         />
-        <Button className={`${classes.button} ${classes.saveButton}`}>
+        <Button
+          onClick={clickSubmit}
+          className={`${classes.button} ${classes.saveButton}`}
+        >
           Save recipe
         </Button>
       </Grid>
