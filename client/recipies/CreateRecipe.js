@@ -79,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='22' ry='22' stroke='black' stroke-width='4.8' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
     },
   },
+  error: { backgroundColor: "rgba(244, 110, 110, 0.2)" },
   textField: {
     width: `${4 * 82}px`,
     height: "44px",
@@ -176,6 +177,7 @@ export default function CreateRecipe() {
     description: "",
     servings: "",
     private: true,
+    submitClicked: false,
   });
 
   const handleChange = (name) => (event) => {
@@ -205,6 +207,7 @@ export default function CreateRecipe() {
     setIngredients(
       ingredients.concat({ name: "", quantity: "", unit: "unit" })
     );
+    setValues({ ...values, submitClicked: false });
   };
 
   const handleDeleteIngredient = (index) => {
@@ -226,6 +229,7 @@ export default function CreateRecipe() {
 
   const handleAddStep = () => {
     setSteps(steps.concat(""));
+    setValues({ ...values, submitClicked: false });
   };
 
   const handleDeleteStep = (index) => {
@@ -243,13 +247,29 @@ export default function CreateRecipe() {
       private: values.private,
     };
 
-    createRecipe(recipe).then((data) => {
-      if (data.err) {
-        console.log(data.err);
-      } else {
-        //setValues({ ...values, redirectToProfile: true });
-      }
-    });
+    let ingrBoolArr = ingredients.map((item) =>
+      item.name && item.quantity ? true : false
+    );
+
+    let isIngrFilled =
+      ingrBoolArr.length == 1
+        ? ingrBoolArr[0]
+        : ingrBoolArr.reduce((acc, cur) => acc && cur);
+
+    let isStepFilled =
+      steps.length == 1 ? steps[0] : steps.reduce((acc, cur) => acc && cur);
+
+    if (values.name && values.servings && isIngrFilled && isStepFilled) {
+      createRecipe(recipe).then((data) => {
+        if (data.err) {
+          console.log(data.err);
+        } else {
+          //setValues({ ...values, redirectToProfile: true });
+        }
+      });
+    } else {
+      setValues({ ...values, submitClicked: true });
+    }
   };
 
   return (
@@ -263,7 +283,9 @@ export default function CreateRecipe() {
           id="name"
           value={values.name}
           onChange={handleChange("name")}
-          className={classes.textField}
+          className={`${classes.textField} ${
+            !values.name && values.submitClicked && classes.error
+          }`}
           classes={{ root: classes.textInput, focused: classes.focused }}
           inputProps={{ "aria-label": "name" }}
           startAdornment={
@@ -307,7 +329,9 @@ export default function CreateRecipe() {
           id="servings"
           value={values.servings}
           onChange={handleChange("servings")}
-          className={classes.servings}
+          className={`${classes.servings} ${
+            !values.servings && values.submitClicked && classes.error
+          }`}
           classes={{ root: classes.textInput, focused: classes.focused }}
           type="number"
           inputProps={{ "aria-label": "servings", min: 0 }}
@@ -330,7 +354,9 @@ export default function CreateRecipe() {
             <InputBase
               onChange={handleIngredientChange("name", index)}
               value={item.name}
-              className={classes.textField}
+              className={`${classes.textField} ${
+                !item.name && values.submitClicked && classes.error
+              }`}
               classes={{ root: classes.textInput, focused: classes.focused }}
               inputProps={{ "aria-label": "ingredient" }}
               placeholder="Ingredient"
@@ -338,7 +364,9 @@ export default function CreateRecipe() {
             <InputBase
               onChange={handleIngredientChange("quantity", index)}
               value={item.quantity}
-              className={classes.quantity}
+              className={`${classes.quantity} ${
+                !item.quantity && values.submitClicked && classes.error
+              }`}
               classes={{ root: classes.textInput, focused: classes.focused }}
               type="number"
               inputProps={{ "aria-label": "quantity", min: 0 }}
@@ -404,7 +432,9 @@ export default function CreateRecipe() {
             <InputBase
               onChange={handleStepChange(index)}
               value={item}
-              className={isMobile ? classes.multilineMobile : classes.multiline}
+              className={`${
+                isMobile ? classes.multilineMobile : classes.multiline
+              } ${!item && values.submitClicked && classes.error}`}
               classes={{ root: classes.textInput, focused: classes.focused }}
               inputProps={{ "aria-label": "step" }}
               multiline
