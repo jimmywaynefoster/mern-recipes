@@ -11,10 +11,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Icon from "@material-ui/core/Icon";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
+import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { createRecipe } from "./api-recipes";
 
@@ -183,6 +187,7 @@ export default function CreateRecipe() {
     servings: "",
     private: true,
     submitClicked: false,
+    dialogOpen: false,
   });
 
   const handleChange = (name) => (event) => {
@@ -284,7 +289,7 @@ export default function CreateRecipe() {
         if (data.err) {
           console.log(data.err);
         } else {
-          //setValues({ ...values, redirectToProfile: true });
+          setValues({ ...values, dialogOpen: true });
         }
       });
     } else {
@@ -499,6 +504,17 @@ export default function CreateRecipe() {
           Save recipe
         </Button>
       </Grid>
+      {/* ////////////SUCCESS DIALOG//////////// */}
+      <Dialog open={values.dialogOpen} disableBackdropClick={true}>
+        <DialogTitle>Successfully created</DialogTitle>
+        <DialogActions>
+          <Link to="/my-recipes">
+            <Button color="primary" autoFocus="autoFocus" variant="contained">
+              OK
+            </Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
