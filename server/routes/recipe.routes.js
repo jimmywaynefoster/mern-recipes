@@ -9,14 +9,14 @@ router
   .get(recipeCtrl.listRecipesFeed)
   .post(recipeCtrl.create);
 
-router.route("/api/recipes/:userId").get(recipeCtrl.listByUser);
-//.post(recipeCtrl.create);
+// router.route("/api/recipes/:userId").get(recipeCtrl.listByUser);
+// //.post(recipeCtrl.create);
 
-router
-  .route("/api/recipes/user/:recipeId")
-  .get(recipeCtrl.recipeById)
-  .patch(recipeCtrl.update)
-  .delete(recipeCtrl.remove);
+// router
+//   .route("/api/recipes/user/:recipeId")
+//   .get(recipeCtrl.recipeById)
+//   .patch(recipeCtrl.update)
+//   .delete(recipeCtrl.remove);
 
 //router.param("userId", userCtrl.userByID);
 

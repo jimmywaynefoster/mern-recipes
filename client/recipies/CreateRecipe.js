@@ -60,15 +60,6 @@ const SelectInput = withStyles((theme) => ({
   },
 }))(InputBase);
 
-const PrivateCheckbox = withStyles({
-  root: {
-    "&$checked": {
-      color: "#B79B84",
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
-
 const useStyles = makeStyles((theme) => ({
   title: {
     marginTop: theme.spacing(4),
@@ -175,6 +166,34 @@ export default function CreateRecipe() {
   const classes = useStyles();
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
+  const [values, setValues] = useState({
+    name: "",
+    description: "",
+    servings: null,
+    ingredients: [],
+    steps: [],
+    private: true,
+  });
+
+  const [ingredients, setIngredients] = useState([
+    { ingredient: "", quantity: null, unit: "unit" },
+  ]);
+
+  const handleAddIngredient = () => {
+    setIngredients(
+      ingredients.concat({ ingredient: "", quantity: null, unit: "unit" })
+    );
+  };
+
+  const handleChange = (name) => (event) => {
+    if (name == "private") {
+      setValues({ ...values, private: event.target.checked });
+    } else {
+      setValues({ ...values, [name]: event.target.value });
+    }
+    console.log(values);
+  };
+
   return (
     <Container maxWidth="md">
       <Typography className={classes.title} variant="h4" gutterBottom>
@@ -182,6 +201,9 @@ export default function CreateRecipe() {
       </Typography>
       <Grid container direction="column">
         <InputBase
+          id="name"
+          value={values.name}
+          onChange={handleChange("name")}
           className={classes.textField}
           classes={{ root: classes.textInput, focused: classes.focused }}
           inputProps={{ "aria-label": "name" }}
@@ -190,6 +212,9 @@ export default function CreateRecipe() {
           }
         />
         <InputBase
+          id="description"
+          value={values.description}
+          onChange={handleChange("description")}
           className={isMobile ? classes.multilineMobile : classes.multiline}
           classes={{ root: classes.textInput, focused: classes.focused }}
           inputProps={{ "aria-label": "description" }}
@@ -217,6 +242,9 @@ export default function CreateRecipe() {
           {/*values.photo ? values.photo.name : ""*/}photo.jpg
         </span>
         <InputBase
+          id="servings"
+          value={values.servings}
+          onChange={handleChange("servings")}
           className={classes.servings}
           classes={{ root: classes.textInput, focused: classes.focused }}
           type="number"
@@ -225,100 +253,60 @@ export default function CreateRecipe() {
             <InputAdornment position="end">Servings</InputAdornment>
           }
         />
+        {/* ////////////INGREDIENTS//////////// */}
         <Typography className={classes.title} variant="h5">
           Ingredients
         </Typography>
-        <Grid
-          container
-          className={`${classes.ingredientInput} ${
-            isMobile && classes.ingredientInputMobile
-          }`}
-        >
-          <InputBase
-            className={classes.textField}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            inputProps={{ "aria-label": "name" }}
-            placeholder="Ingredient"
-          />
-          <InputBase
-            className={classes.quantity}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            type="number"
-            inputProps={{ "aria-label": "quantity" }}
-            placeholder="Qty"
-          />
-          <FormControl>
-            <Select
-              labelId="demo-customized-select-label"
-              id="demo-customized-select"
-              value={"unit"}
-              //onChange={handleChange}
-              input={<SelectInput />}
-            >
-              <MenuItem value="unit">unit</MenuItem>
-              <MenuItem value="kg">kg</MenuItem>
-              <MenuItem value="g">g</MenuItem>
-              <MenuItem value="lb">lb</MenuItem>
-              <MenuItem value="cup">cup</MenuItem>
-              <MenuItem value="l">l</MenuItem>
-              <MenuItem value="ml">ml</MenuItem>
-              <MenuItem value="oz">oz</MenuItem>
-              <MenuItem value="pt">pt</MenuItem>
-              <MenuItem value="tsp">tsp</MenuItem>
-              <MenuItem value="tbsp">tbsp</MenuItem>
-            </Select>
-          </FormControl>
-          <Button className={`${classes.button} ${classes.deleteButton}`}>
-            <DeleteForeverIcon />
-          </Button>
-        </Grid>
-        <Grid
-          container
-          className={`${classes.ingredientInput} ${
-            isMobile && classes.ingredientInputMobile
-          }`}
-        >
-          <InputBase
-            className={classes.textField}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            inputProps={{ "aria-label": "name" }}
-            placeholder="Ingredient"
-          />
-          <InputBase
-            className={classes.quantity}
-            classes={{ root: classes.textInput, focused: classes.focused }}
-            type="number"
-            inputProps={{ "aria-label": "quantity" }}
-            placeholder="Qty"
-          />
-          <FormControl>
-            <Select
-              labelId="demo-customized-select-label"
-              id="demo-customized-select"
-              value={"unit"}
-              //onChange={handleChange}
-              input={<SelectInput />}
-            >
-              <MenuItem value="unit">unit</MenuItem>
-              <MenuItem value="kg">kg</MenuItem>
-              <MenuItem value="g">g</MenuItem>
-              <MenuItem value="lb">lb</MenuItem>
-              <MenuItem value="cup">cup</MenuItem>
-              <MenuItem value="l">l</MenuItem>
-              <MenuItem value="ml">ml</MenuItem>
-              <MenuItem value="oz">oz</MenuItem>
-              <MenuItem value="pt">pt</MenuItem>
-              <MenuItem value="tsp">tsp</MenuItem>
-              <MenuItem value="tbsp">tbsp</MenuItem>
-            </Select>
-          </FormControl>
-          <Button className={`${classes.button} ${classes.deleteButton}`}>
-            <DeleteForeverIcon />
-          </Button>
-        </Grid>
+        {ingredients.map(() => (
+          <Grid
+            container
+            className={`${classes.ingredientInput} ${
+              isMobile && classes.ingredientInputMobile
+            }`}
+          >
+            <InputBase
+              className={classes.textField}
+              classes={{ root: classes.textInput, focused: classes.focused }}
+              inputProps={{ "aria-label": "name" }}
+              placeholder="Ingredient"
+            />
+            <InputBase
+              className={classes.quantity}
+              classes={{ root: classes.textInput, focused: classes.focused }}
+              type="number"
+              inputProps={{ "aria-label": "quantity" }}
+              placeholder="Qty"
+            />
+            <FormControl>
+              <Select
+                labelId="demo-customized-select-label"
+                id="demo-customized-select"
+                value={"unit"}
+                //onChange={handleChange}
+                input={<SelectInput />}
+              >
+                <MenuItem value="unit">unit</MenuItem>
+                <MenuItem value="kg">kg</MenuItem>
+                <MenuItem value="g">g</MenuItem>
+                <MenuItem value="lb">lb</MenuItem>
+                <MenuItem value="cup">cup</MenuItem>
+                <MenuItem value="l">l</MenuItem>
+                <MenuItem value="ml">ml</MenuItem>
+                <MenuItem value="oz">oz</MenuItem>
+                <MenuItem value="pt">pt</MenuItem>
+                <MenuItem value="tsp">tsp</MenuItem>
+                <MenuItem value="tbsp">tbsp</MenuItem>
+              </Select>
+            </FormControl>
+            <Button className={`${classes.button} ${classes.deleteButton}`}>
+              <DeleteForeverIcon />
+            </Button>
+          </Grid>
+        ))}
         <Button
           className={`${classes.button} ${classes.addButton}`}
           startIcon={<AddIcon />}
+          onClick={handleAddIngredient}
         >
           Add
         </Button>
@@ -356,9 +344,11 @@ export default function CreateRecipe() {
         <FormControlLabel
           className={classes.checkbox}
           control={
-            <PrivateCheckbox
-              //checked={state.checkedG}
-              //onChange={handleChange}
+            <Checkbox
+              checked={values.private}
+              id="private"
+              color="default"
+              onChange={handleChange("private")}
               name="private"
             />
           }
