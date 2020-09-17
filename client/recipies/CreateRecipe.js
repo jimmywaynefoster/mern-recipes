@@ -169,20 +169,47 @@ export default function CreateRecipe() {
   const [values, setValues] = useState({
     name: "",
     description: "",
-    servings: null,
+    servings: "",
     ingredients: [],
     steps: [],
     private: true,
   });
 
   const [ingredients, setIngredients] = useState([
-    { ingredient: "", quantity: null, unit: "unit" },
+    { ingredient: "", quantity: "", unit: "unit" },
   ]);
+
+  const handleIngredientChange = (name, index) => (event) => {
+    // console.log(event.target.value);
+    // console.log(name);
+    // console.log(changedIngredientIndex);
+    let newArr = ingredients.map((item, i) => {
+      if (index == i) {
+        //console.log({ ...item, [name]: event.target.value });
+        return { ...item, [name]: event.target.value };
+      } else {
+        return item;
+      }
+    });
+    setIngredients(newArr);
+    console.log(ingredients);
+  };
+  //   let newArr = ingredients.map((ingredient, index) => {
+  //     if (changedIngredientIndex == index) {
+  //       console.log(index);
+  //     }
+  //   });
+  //   //  setIngredients([...ingredients]);
+  // };
 
   const handleAddIngredient = () => {
     setIngredients(
-      ingredients.concat({ ingredient: "", quantity: null, unit: "unit" })
+      ingredients.concat({ ingredient: "", quantity: "", unit: "unit" })
     );
+  };
+
+  const handleDeleteIngredient = (index) => {
+    setIngredients(ingredients.filter((item, i) => i != index));
   };
 
   const handleChange = (name) => (event) => {
@@ -191,7 +218,6 @@ export default function CreateRecipe() {
     } else {
       setValues({ ...values, [name]: event.target.value });
     }
-    console.log(values);
   };
 
   return (
@@ -257,20 +283,25 @@ export default function CreateRecipe() {
         <Typography className={classes.title} variant="h5">
           Ingredients
         </Typography>
-        {ingredients.map(() => (
+        {ingredients.map((item, index) => (
           <Grid
+            key={index}
             container
             className={`${classes.ingredientInput} ${
               isMobile && classes.ingredientInputMobile
             }`}
           >
             <InputBase
+              onChange={handleIngredientChange("ingredient", index)}
+              value={item.ingredient}
               className={classes.textField}
               classes={{ root: classes.textInput, focused: classes.focused }}
-              inputProps={{ "aria-label": "name" }}
+              inputProps={{ "aria-label": "ingredient" }}
               placeholder="Ingredient"
             />
             <InputBase
+              onChange={handleIngredientChange("quantity", index)}
+              value={item.quantity}
               className={classes.quantity}
               classes={{ root: classes.textInput, focused: classes.focused }}
               type="number"
@@ -279,10 +310,10 @@ export default function CreateRecipe() {
             />
             <FormControl>
               <Select
+                onChange={handleIngredientChange("unit", index)}
+                value={item.unit}
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"
-                value={"unit"}
-                //onChange={handleChange}
                 input={<SelectInput />}
               >
                 <MenuItem value="unit">unit</MenuItem>
@@ -298,7 +329,10 @@ export default function CreateRecipe() {
                 <MenuItem value="tbsp">tbsp</MenuItem>
               </Select>
             </FormControl>
-            <Button className={`${classes.button} ${classes.deleteButton}`}>
+            <Button
+              onClick={() => handleDeleteIngredient(index)}
+              className={`${classes.button} ${classes.deleteButton}`}
+            >
               <DeleteForeverIcon />
             </Button>
           </Grid>
