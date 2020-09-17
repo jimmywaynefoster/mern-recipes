@@ -88,9 +88,10 @@ const useStyles = makeStyles((theme) => ({
     height: `${24 * 5 + 8}px`,
   },
   servings: {
-    width: `${4 * 40}px`,
+    width: `${4 * 41}px`,
     height: "44px",
     paddingLeft: theme.spacing(4),
+    paddingRight: 16,
   },
   quantity: {
     width: `${4 * 23}px`,
@@ -309,7 +310,7 @@ export default function CreateRecipe() {
           className={classes.servings}
           classes={{ root: classes.textInput, focused: classes.focused }}
           type="number"
-          inputProps={{ "aria-label": "servings" }}
+          inputProps={{ "aria-label": "servings", min: 0 }}
           endAdornment={
             <InputAdornment position="end">Servings</InputAdornment>
           }
@@ -340,7 +341,7 @@ export default function CreateRecipe() {
               className={classes.quantity}
               classes={{ root: classes.textInput, focused: classes.focused }}
               type="number"
-              inputProps={{ "aria-label": "quantity" }}
+              inputProps={{ "aria-label": "quantity", min: 0 }}
               placeholder="Qty"
             />
             <FormControl>
