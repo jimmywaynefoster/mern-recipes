@@ -105,7 +105,12 @@ const listRecipesFeed = async (req, res) => {
 
 const listByUser = async (req, res) => {
   try {
-    let recipes = await Recipe.find({ createdBy: req.profile._id });
+    let recipes = await Recipe.find(
+      { createdBy: req.user._id },
+      "name description"
+    )
+      .sort("-created")
+      .exec();
     res.json(recipes);
   } catch (err) {
     return res.status(400).json({

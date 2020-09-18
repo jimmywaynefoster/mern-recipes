@@ -9,9 +9,13 @@ router
   .get(recipeCtrl.listRecipesFeed)
   .post(recipeCtrl.create);
 
-router
-  .route("/api/recipes/photo/:recipeId")
-  .get(recipeCtrl.photo, recipeCtrl.defaultPhoto);
+router.get("/api/recipes/my-recipes", recipeCtrl.listByUser);
+
+router.get(
+  "/api/recipes/photo/:recipeId",
+  recipeCtrl.photo,
+  recipeCtrl.defaultPhoto
+);
 
 // router.route("/api/recipes/:userId").get(recipeCtrl.listByUser);
 // //.post(recipeCtrl.create);
