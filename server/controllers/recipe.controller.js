@@ -6,7 +6,6 @@ const create = (req, res) => {
   let recipeValues;
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
-  //form.multiples = true;
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -37,13 +36,10 @@ const create = (req, res) => {
         private: fields.private,
       };
     }
-    console.log(fields);
-    console.log("aaaaa");
-    console.log(JSON.parse(fields.ingredients));
-    console.log(files);
+
     const recipe = new Recipe({
       ...recipeValues,
-      createdBy: "5f5c067457e11652e4b429e7" /*req.user._id*/,
+      createdBy: req.user._id,
     });
     try {
       await recipe.save();
@@ -55,18 +51,6 @@ const create = (req, res) => {
     }
   });
 };
-
-// const create = async (req, res) => {
-//   const recipe = new Recipe({ ...req.body, createdBy: req.user._id });
-//   try {
-//     await recipe.save();
-//     return res.status(200).json({ message: "Successfully created" });
-//   } catch (err) {
-//     return res.status(400).json({
-//       err,
-//     });
-//   }
-// };
 
 const listRecipesFeed = async (req, res) => {
   try {
