@@ -288,7 +288,7 @@ export default function CreateRecipe() {
     if (values.name && values.servings && checkFilledFields()) {
       createRecipe(recipe).then((data) => {
         if (data.err) {
-          console.log(data.err);
+          console.log(data);
         } else {
           setValues({ ...values, dialogOpen: true });
         }

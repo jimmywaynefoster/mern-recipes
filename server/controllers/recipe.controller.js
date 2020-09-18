@@ -37,13 +37,17 @@ const create = (req, res) => {
       };
     }
 
-    const recipe = new Recipe({
-      ...recipeValues,
-      createdBy: req.user._id,
-    });
     try {
-      await recipe.save();
-      return res.status(200).json({ message: "Successfully created" });
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "User not authorized" });
+      } else {
+        const recipe = new Recipe({
+          ...recipeValues,
+          createdBy: req.user._id,
+        });
+        await recipe.save();
+        return res.status(200).json({ message: "Successfully created" });
+      }
     } catch (err) {
       return res.status(400).json({
         err,
