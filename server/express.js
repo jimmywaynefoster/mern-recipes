@@ -33,6 +33,7 @@ import devBundle from "./devBundle";
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
 
+//favicon
 app.use(favicon(path.join(CURRENT_WORKING_DIR, "favicon.ico")));
 
 //comment out before building for production
