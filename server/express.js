@@ -1,4 +1,5 @@
 import express from "express";
+import favicon from "serve-favicon";
 import path from "path";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -31,6 +32,8 @@ import devBundle from "./devBundle";
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
+
+app.use(favicon(path.join(CURRENT_WORKING_DIR, "favicon.ico")));
 
 //comment out before building for production
 devBundle.compile(app);
