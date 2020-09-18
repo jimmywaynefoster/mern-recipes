@@ -121,7 +121,7 @@ export default function Insights() {
             <Link className={classes.link} to="/create-recipe/">
               <CardActionArea className={classes.cardArea}>
                 <CardContent>
-                  <Grid alignItems="center" justify="center">
+                  <Grid container alignItems="center" justify="center">
                     <AddCircleOutlineIcon className={classes.addRecipeIcon} />
                     <Typography
                       className={classes.addRecipeTypography}
