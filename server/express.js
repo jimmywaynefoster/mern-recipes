@@ -16,6 +16,7 @@ import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import recipeRoutes from "./routes/recipe.routes";
+require("dotenv").config();
 
 // modules for server side rendering
 import React from "react";
