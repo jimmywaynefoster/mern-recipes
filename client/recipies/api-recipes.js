@@ -4,9 +4,9 @@ const createRecipe = async (recipe) => {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        credentials: "include",
       },
-      body: JSON.stringify(recipe),
+      body: recipe,
     });
     return await response.json();
   } catch (err) {

@@ -193,6 +193,8 @@ export default function CreateRecipe() {
   const handleChange = (name) => (event) => {
     if (name == "private") {
       setValues({ ...values, private: event.target.checked });
+    } else if (name == "photo") {
+      setValues({ ...values, photo: event.target.files[0] });
     } else {
       setValues({ ...values, [name]: event.target.value });
     }
@@ -274,15 +276,28 @@ export default function CreateRecipe() {
   }, [values, ingredients, steps]);
 
   const clickSubmit = () => {
-    const recipe = {
-      name: values.name || undefined,
-      description: values.description || undefined,
-      // photo:,
-      servings: values.servings || undefined,
-      ingredients: ingredients || undefined,
-      steps: steps || undefined,
-      private: values.private,
-    };
+    // const recipe = {
+    //   name: values.name || undefined,
+    //   description: values.description || undefined,
+    //   // photo:,
+    //   servings: values.servings || undefined,
+    //   ingredients: ingredients || undefined,
+    //   steps: steps || undefined,
+    //   private: values.private,
+    // };
+    console.log("ingredients");
+    console.log(ingredients);
+    let recipe = new FormData();
+    values.name && recipe.append("name", values.name);
+    values.description && recipe.append("description", values.description);
+    values.servings && recipe.append("servings", values.servings);
+    ingredients && recipe.append("ingredients", JSON.stringify(ingredients));
+    steps && recipe.append("steps", JSON.stringify(steps));
+    values.private && recipe.append("private", values.private);
+    values.photo && recipe.append("photo", values.photo);
+    console.log("recipe");
+    console.log(recipe);
+    console.log(recipe.ingredients);
 
     if (values.name && values.servings && checkFilledFields()) {
       createRecipe(recipe).then((data) => {
