@@ -16,7 +16,12 @@ const create = (req, res) => {
     }
     if (files.photo) {
       recipeValues = {
-        ...fields,
+        name: fields.name,
+        description: fields.description,
+        servings: fields.servings,
+        ingredients: JSON.parse(fields.ingredients),
+        steps: JSON.parse(fields.steps),
+        private: fields.private,
         photo: {
           data: fs.readFileSync(files.photo.path),
           contentType: files.photo.type,
@@ -35,7 +40,7 @@ const create = (req, res) => {
     console.log(fields);
     console.log("aaaaa");
     console.log(JSON.parse(fields.ingredients));
-    console.log(files.photo.path);
+    console.log(files);
     const recipe = new Recipe({
       ...recipeValues,
       createdBy: "5f5c067457e11652e4b429e7" /*req.user._id*/,

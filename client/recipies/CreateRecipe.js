@@ -347,7 +347,7 @@ export default function CreateRecipe() {
         {/* ////////////UPLOAD PHOTO//////////// */}
         <input
           accept="image/*"
-          //onChange={handleChange("photo")}
+          onChange={handleChange("photo")}
           className={classes.input}
           id="icon-button-file"
           type="file"
@@ -362,7 +362,7 @@ export default function CreateRecipe() {
           </Button>
         </label>{" "}
         <span className={classes.filename}>
-          {/*values.photo ? values.photo.name : ""*/}photo.jpg
+          {values.photo ? values.photo.name : ""}
         </span>
         {/* ////////////SERVINGS//////////// */}
         <InputBase
