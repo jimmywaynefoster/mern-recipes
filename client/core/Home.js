@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import logo from "./../assets/images/my-recipies-logo.png";
 import defaultRecipe from "./../assets/images/default-recipe.jpg";
+import { listFeed } from "./../recipes/api-recipes";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -58,6 +59,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
+
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    listFeed(signal).then((data) => {
+      if (data && data.err) {
+        console.log(data.err);
+      } else {
+        setRecipes(data);
+      }
+    });
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, []);
+
   return (
     <div className={classes.main}>
       <Grid container justify="center">
@@ -75,7 +96,7 @@ export default function Home() {
       </Grid>
       <Container maxWidth="lg">
         <Grid container justify="center">
-          {[1, 2, 3, 4, 5].map((item, index) => (
+          {recipes.map((recipe, index) => (
             <Card className={classes.card} key={index}>
               <CardActionArea>
                 <CardMedia
@@ -83,7 +104,7 @@ export default function Home() {
                   component="img"
                   alt="Recipe"
                   height="212"
-                  image={defaultRecipe}
+                  image={`/api/recipes/photo/${recipe._id}`}
                   title="Recipe"
                 />
                 <CardContent>
@@ -92,18 +113,18 @@ export default function Home() {
                     variant="h5"
                     component="h2"
                   >
-                    Lizard
+                    {recipe.name}
                   </Typography>
-                  <Typography variant="subtitle2">By John Doe</Typography>
+                  <Typography variant="subtitle2">
+                    {recipe.createdBy.name}
+                  </Typography>
                   <br />
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    {recipe.description}
                   </Typography>
                 </CardContent>
               </CardActionArea>

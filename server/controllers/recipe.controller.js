@@ -56,11 +56,32 @@ const create = (req, res) => {
   });
 };
 
+const recipeByID = async (req, res, next, id) => {
+  try {
+    let recipe = await Recipe.findById(id);
+    if (!recipe)
+      return res.status("400").json({
+        err: "Recipe not found",
+      });
+    req.recipe = recipe;
+    next();
+  } catch (err) {
+    return res.status("400").json({
+      error: "Could not retrieve use recipe",
+    });
+  }
+};
+
+const photo = (req, res, next) => {
+  res.set("Content-Type", req.recipe.photo.contentType);
+  return res.send(req.recipe.photo.data);
+};
+
 const listRecipesFeed = async (req, res) => {
   try {
     let recipes = await Recipe.find(
       { private: false },
-      "name description photo createdBy"
+      "name description createdBy"
     ).populate("createdBy", "name");
     res.json(recipes);
   } catch (err) {
@@ -128,4 +149,6 @@ export default {
   recipeById,
   update,
   remove,
+  recipeByID,
+  photo,
 };

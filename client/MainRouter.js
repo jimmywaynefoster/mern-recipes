@@ -7,10 +7,10 @@ import EditProfile from "./user/EditProfile";
 import ChangePassword from "./user/ChangePassword";
 import Profile from "./user/Profile";
 import PrivateRoute from "./auth/PrivateRoute";
-import Recipe from "./recipies/Recipe";
-import CreateRecipe from "./recipies/CreateRecipe";
-import Insights from "./recipies/Insights";
-import MyRecipes from "./recipies/MyRecipes";
+import Recipe from "./recipes/Recipe";
+import CreateRecipe from "./recipes/CreateRecipe";
+import Insights from "./recipes/Insights";
+import MyRecipes from "./recipes/MyRecipes";
 import Menu from "./core/Menu";
 
 const MainRouter = withRouter(({ location }) => {

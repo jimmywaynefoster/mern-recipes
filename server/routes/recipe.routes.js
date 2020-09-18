@@ -9,6 +9,8 @@ router
   .get(recipeCtrl.listRecipesFeed)
   .post(recipeCtrl.create);
 
+router.route("/api/recipes/photo/:recipeId").get(recipeCtrl.photo);
+
 // router.route("/api/recipes/:userId").get(recipeCtrl.listByUser);
 // //.post(recipeCtrl.create);
 
@@ -19,5 +21,6 @@ router
 //   .delete(recipeCtrl.remove);
 
 //router.param("userId", userCtrl.userByID);
+router.param("recipeId", recipeCtrl.recipeByID);
 
 export default router;
