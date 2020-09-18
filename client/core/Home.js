@@ -10,8 +10,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import logo from "./../assets/images/my-recipies-logo.png";
-import defaultRecipe from "./../assets/images/default-recipe.jpg";
 import { listFeed } from "./../recipes/api-recipes";
+import truncate from "lodash/truncate";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -116,7 +116,7 @@ export default function Home() {
                     {recipe.name}
                   </Typography>
                   <Typography variant="subtitle2">
-                    {recipe.createdBy.name}
+                    By {recipe.createdBy.name}
                   </Typography>
                   <br />
                   <Typography
@@ -124,7 +124,10 @@ export default function Home() {
                     color="textSecondary"
                     component="p"
                   >
-                    {recipe.description}
+                    {truncate(recipe.description, {
+                      length: 65,
+                      separator: /,? +/,
+                    })}
                   </Typography>
                 </CardContent>
               </CardActionArea>
