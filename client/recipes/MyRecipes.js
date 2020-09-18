@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { listMyRecipes } from "./api-recipes";
 import truncate from "lodash/truncate";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -24,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#866d57",
   },
   card: {
-    maxWidth: 290,
+    width: 290,
+    minHeight: 290,
     margin: theme.spacing(2),
     paddingBottom: "8px",
     borderRadius: "40px",
@@ -44,6 +46,16 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: theme.palette.secondary.main,
+  },
+  addRecipeTypography: {
+    textAlign: "center",
+  },
+  addRecipeIcon: {
+    fontSize: "100px",
+    width: "100%",
+  },
+  cardArea: {
+    height: "100%",
   },
 }));
 
@@ -105,6 +117,23 @@ export default function Insights() {
               </Link>
             </Card>
           ))}
+          <Card className={classes.card}>
+            <Link className={classes.link} to="/create-recipe/">
+              <CardActionArea className={classes.cardArea}>
+                <CardContent>
+                  <Grid alignItems="center" justify="center">
+                    <AddCircleOutlineIcon className={classes.addRecipeIcon} />
+                    <Typography
+                      className={classes.addRecipeTypography}
+                      variant="h4"
+                    >
+                      Add recipe
+                    </Typography>
+                  </Grid>
+                </CardContent>
+              </CardActionArea>
+            </Link>
+          </Card>
         </Grid>
       </Container>
     </div>
