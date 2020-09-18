@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -40,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1,
   },
   cardDescription: { marginTop: 8 },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.secondary.main,
+  },
 }));
 
 export default function Insights() {
@@ -71,31 +76,33 @@ export default function Insights() {
         <Grid container justify="center">
           {recipes.map((recipe, index) => (
             <Card className={classes.card} key={index}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  component="img"
-                  alt="Recipe"
-                  height="212"
-                  image={`/api/recipes/photo/${recipe._id}`}
-                  title="Recipe"
-                />
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    {recipe.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {truncate(recipe.description, {
-                      length: 65,
-                      separator: /,? +/,
-                    })}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+              <Link className={classes.link} to={"/recipe/" + recipe._id}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    component="img"
+                    alt="Recipe"
+                    height="212"
+                    image={`/api/recipes/photo/${recipe._id}`}
+                    title="Recipe"
+                  />
+                  <CardContent>
+                    <Typography variant="h5" component="h2">
+                      {recipe.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {truncate(recipe.description, {
+                        length: 65,
+                        separator: /,? +/,
+                      })}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
             </Card>
           ))}
         </Grid>
