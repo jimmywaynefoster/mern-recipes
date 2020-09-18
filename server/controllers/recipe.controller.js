@@ -121,7 +121,10 @@ const listByUser = async (req, res) => {
 
 const recipeById = async (req, res) => {
   try {
-    let recipe = await Recipe.findById(req.params.recipeId)
+    let recipe = await Recipe.findById(
+      req.params.recipeId,
+      "name description servings ingredients steps"
+    )
       .populate("createdBy", "name")
       .exec();
     res.json(recipe);

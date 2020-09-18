@@ -25,7 +25,7 @@ const MainRouter = withRouter(({ location }) => {
         <Route exact path="/" component={Home} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
-        <Route path="/recipe" component={Recipe} />
+        <Route path="/recipe/:recipeId" component={Recipe} />
         <Route path="/create-recipe" component={CreateRecipe} />
         <Route path="/insights" component={Insights} />
         <Route path="/my-recipes" component={MyRecipes} />

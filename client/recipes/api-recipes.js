@@ -38,4 +38,20 @@ const listMyRecipes = async (signal) => {
   }
 };
 
-export { createRecipe, listFeed, listMyRecipes };
+const readRecipe = async (params, signal) => {
+  try {
+    let response = await fetch("/api/recipes/" + params.recipeId, {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        credentials: "include",
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { createRecipe, listFeed, listMyRecipes, readRecipe };

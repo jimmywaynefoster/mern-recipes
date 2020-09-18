@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -7,7 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import defaultRecipe from "./../assets/images/default-recipe.jpg";
+import { readRecipe } from "./api-recipes";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -31,26 +31,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Recipe() {
+export default function Recipe({ match }) {
   const classes = useStyles();
+  const [recipe, setRecipe] = useState([]);
+  const [fetched, setFetched] = useState(false);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    readRecipe(
+      {
+        recipeId: match.params.recipeId,
+      },
+      signal
+    ).then((data) => {
+      if (data && data.err) {
+        console.log(data.err);
+      } else {
+        setRecipe(data);
+        setFetched(true);
+      }
+    });
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, []);
+
   return (
     <Container className={classes.main} maxWidth="lg">
       <Grid container spacing={4}>
         <Grid item lg={6}>
-          <img className={classes.image} src={defaultRecipe} />
+          {/* <img className={classes.image} src={defaultRecipe} /> */}
         </Grid>
         <Grid item lg={6}>
           <Typography className={classes.title} variant="h3" gutterBottom>
-            Recipe name
+            {recipe.name}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {recipe.description}
           </Typography>
           <Typography variant="h6" gutterBottom>
-            Servings: 4
+            Servings: {recipe.servings}
           </Typography>
         </Grid>
         <Grid item lg={5} className={classes.cardContainer}>
@@ -59,82 +82,33 @@ export default function Recipe() {
               Ingredients
             </Typography>
             <List>
-              <ListItem>
-                <ListItemText primary="Ingredient 1" />
-                <ListItemSecondaryAction>
-                  <ListItemText primary="10 unit" />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Ingredient 2" />
-                <ListItemSecondaryAction>
-                  <ListItemText primary="10 unit" />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Ingredient 3" />
-                <ListItemSecondaryAction>
-                  <ListItemText primary="10 unit" />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Ingredient 4" />
-                <ListItemSecondaryAction>
-                  <ListItemText primary="10 unit" />
-                </ListItemSecondaryAction>
-              </ListItem>
+              {fetched &&
+                recipe.ingredients.map((ingredient, index) => (
+                  <ListItem>
+                    <ListItemText primary={ingredient.name} />
+                    <ListItemSecondaryAction>
+                      <ListItemText
+                        primary={`${ingredient.quantity} ${ingredient.unit}`}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
             </List>
           </div>
         </Grid>
         <Grid item lg={7} className={classes.cardContainer}>
-          <div className={classes.card}>
-            <Typography variant="h5" gutterBottom>
-              Step 1
-            </Typography>
-            <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-          </div>
-          <br />
-          <div className={classes.card}>
-            <Typography variant="h5" gutterBottom>
-              Step 2
-            </Typography>
-            <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-          </div>
-          <br />
-          <div className={classes.card}>
-            <Typography variant="h5" gutterBottom>
-              Step 3
-            </Typography>
-            <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-          </div>
-          <br />
-          <div className={classes.card}>
-            <Typography variant="h5" gutterBottom>
-              Step 4
-            </Typography>
-            <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-          </div>
-          <br />
+          {fetched &&
+            recipe.steps.map((step, index) => (
+              <>
+                <div className={classes.card}>
+                  <Typography variant="h5" gutterBottom>
+                    Step {index + 1}
+                  </Typography>
+                  <Typography variant="body1">{step}</Typography>
+                </div>
+                <br />
+              </>
+            ))}
         </Grid>
       </Grid>
     </Container>

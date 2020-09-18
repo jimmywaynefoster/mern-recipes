@@ -11,22 +11,14 @@ router
 
 router.get("/api/recipes/my-recipes", recipeCtrl.listByUser);
 
+router.get("/api/recipes/:recipeId", recipeCtrl.recipeById);
+
 router.get(
   "/api/recipes/photo/:recipeId",
   recipeCtrl.photo,
   recipeCtrl.defaultPhoto
 );
 
-// router.route("/api/recipes/:userId").get(recipeCtrl.listByUser);
-// //.post(recipeCtrl.create);
-
-// router
-//   .route("/api/recipes/user/:recipeId")
-//   .get(recipeCtrl.recipeById)
-//   .patch(recipeCtrl.update)
-//   .delete(recipeCtrl.remove);
-
-//router.param("userId", userCtrl.userByID);
 router.param("recipeId", recipeCtrl.recipeByID);
 
 export default router;
