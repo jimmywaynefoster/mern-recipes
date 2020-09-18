@@ -1,6 +1,7 @@
 import Recipe from "../models/recipe.model";
 import formidable from "formidable";
 import fs from "fs";
+import defaultRecipe from "./../../client/assets/images/default-recipe.jpg";
 
 const create = (req, res) => {
   let recipeValues;
@@ -74,8 +75,15 @@ const recipeByID = async (req, res, next, id) => {
 };
 
 const photo = (req, res, next) => {
-  res.set("Content-Type", req.recipe.photo.contentType);
-  return res.send(req.recipe.photo.data);
+  if (req.recipe.photo.data) {
+    res.set("Content-Type", req.recipe.photo.contentType);
+    return res.send(req.recipe.photo.data);
+  }
+  next();
+};
+
+const defaultPhoto = (req, res) => {
+  return res.sendFile(process.cwd() + defaultRecipe);
 };
 
 const listRecipesFeed = async (req, res) => {
@@ -152,4 +160,5 @@ export default {
   remove,
   recipeByID,
   photo,
+  defaultPhoto,
 };
