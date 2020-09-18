@@ -91,7 +91,10 @@ const listRecipesFeed = async (req, res) => {
     let recipes = await Recipe.find(
       { private: false },
       "name description createdBy"
-    ).populate("createdBy", "name");
+    )
+      .populate("createdBy", "name")
+      .sort("-created")
+      .exec();
     res.json(recipes);
   } catch (err) {
     return res.status(400).json({
