@@ -58,7 +58,10 @@ const create = (req, res) => {
 
 const listRecipesFeed = async (req, res) => {
   try {
-    let recipes = await Recipe.find({ private: false }, "name");
+    let recipes = await Recipe.find(
+      { private: false },
+      "name description photo createdBy"
+    ).populate("createdBy", "name");
     res.json(recipes);
   } catch (err) {
     return res.status(400).json({
