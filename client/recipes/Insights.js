@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#866d57",
   },
   card: {
-    maxWidth: 290,
+    width: 290,
+    minHeight: 290,
     margin: theme.spacing(2),
     paddingBottom: "8px",
     borderRadius: "40px",
