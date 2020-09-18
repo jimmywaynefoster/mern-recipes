@@ -27,8 +27,8 @@ import { ServerStyleSheets, ThemeProvider } from "@material-ui/styles";
 import theme from "./../client/theme";
 //end
 
-//comment out before building for production
-import devBundle from "./devBundle";
+// //comment out before building for production
+// import devBundle from "./devBundle";
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
@@ -36,8 +36,8 @@ const app = express();
 //favicon
 app.use(favicon(path.join(CURRENT_WORKING_DIR, "favicon.ico")));
 
-//comment out before building for production
-devBundle.compile(app);
+// //comment out before building for production
+// devBundle.compile(app);
 
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 
