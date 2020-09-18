@@ -8,6 +8,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { listFeed } from "./api-recipes";
 import truncate from "lodash/truncate";
 
@@ -45,11 +47,16 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: theme.palette.secondary.main,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 export default function Insights() {
   const classes = useStyles();
   const [recipes, setRecipes] = useState([]);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -60,6 +67,7 @@ export default function Insights() {
         console.log(data.err);
       } else {
         setRecipes(data);
+        setOpen(false);
       }
     });
 
@@ -115,6 +123,9 @@ export default function Insights() {
           ))}
         </Grid>
       </Container>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

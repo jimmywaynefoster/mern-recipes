@@ -7,6 +7,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { readRecipe } from "./api-recipes";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     borderRadius: 32,
     backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='32' ry='32' stroke='black' stroke-width='4' stroke-dasharray='5%2c 4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
 }));
 
@@ -62,60 +68,65 @@ export default function Recipe({ match }) {
   }, []);
 
   return (
-    <Container className={classes.main} maxWidth="lg">
-      <Grid container spacing={4}>
-        <Grid item lg={6}>
-          <img
-            className={classes.image}
-            src={`/api/recipes/photo/${recipe._id}`}
-          />
-        </Grid>
-        <Grid item lg={6}>
-          <Typography className={classes.title} variant="h3" gutterBottom>
-            {recipe.name}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {recipe.description}
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-            Servings: {recipe.servings}
-          </Typography>
-        </Grid>
-        <Grid item lg={5} className={classes.cardContainer}>
-          <div className={classes.card}>
-            <Typography variant="h4" gutterBottom>
-              Ingredients
+    <>
+      <Container className={classes.main} maxWidth="lg">
+        <Grid container spacing={4}>
+          <Grid item lg={6}>
+            <img
+              className={classes.image}
+              src={`/api/recipes/photo/${recipe._id}`}
+            />
+          </Grid>
+          <Grid item lg={6}>
+            <Typography className={classes.title} variant="h3" gutterBottom>
+              {recipe.name}
             </Typography>
-            <List>
-              {fetched &&
-                recipe.ingredients.map((ingredient, index) => (
-                  <ListItem>
-                    <ListItemText primary={ingredient.name} />
-                    <ListItemSecondaryAction>
-                      <ListItemText
-                        primary={`${ingredient.quantity} ${ingredient.unit}`}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-            </List>
-          </div>
+            <Typography variant="body1" gutterBottom>
+              {recipe.description}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              Servings: {recipe.servings}
+            </Typography>
+          </Grid>
+          <Grid item lg={5} className={classes.cardContainer}>
+            <div className={classes.card}>
+              <Typography variant="h4" gutterBottom>
+                Ingredients
+              </Typography>
+              <List>
+                {fetched &&
+                  recipe.ingredients.map((ingredient, index) => (
+                    <ListItem>
+                      <ListItemText primary={ingredient.name} />
+                      <ListItemSecondaryAction>
+                        <ListItemText
+                          primary={`${ingredient.quantity} ${ingredient.unit}`}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+              </List>
+            </div>
+          </Grid>
+          <Grid item lg={7} className={classes.cardContainer}>
+            {fetched &&
+              recipe.steps.map((step, index) => (
+                <>
+                  <div className={classes.card}>
+                    <Typography variant="h5" gutterBottom>
+                      Step {index + 1}
+                    </Typography>
+                    <Typography variant="body1">{step}</Typography>
+                  </div>
+                  <br />
+                </>
+              ))}
+          </Grid>
         </Grid>
-        <Grid item lg={7} className={classes.cardContainer}>
-          {fetched &&
-            recipe.steps.map((step, index) => (
-              <>
-                <div className={classes.card}>
-                  <Typography variant="h5" gutterBottom>
-                    Step {index + 1}
-                  </Typography>
-                  <Typography variant="body1">{step}</Typography>
-                </div>
-                <br />
-              </>
-            ))}
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+      <Backdrop className={classes.backdrop} open={!fetched}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 }
