@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: "100%",
+    height: 320,
+    objectFit: "cover",
     borderRadius: 32,
   },
   cardContainer: {
@@ -63,7 +65,10 @@ export default function Recipe({ match }) {
     <Container className={classes.main} maxWidth="lg">
       <Grid container spacing={4}>
         <Grid item lg={6}>
-          {/* <img className={classes.image} src={defaultRecipe} /> */}
+          <img
+            className={classes.image}
+            src={`/api/recipes/photo/${recipe._id}`}
+          />
         </Grid>
         <Grid item lg={6}>
           <Typography className={classes.title} variant="h3" gutterBottom>
