@@ -282,13 +282,13 @@ export default function CreateRecipe() {
     values.servings && recipe.append("servings", values.servings);
     ingredients && recipe.append("ingredients", JSON.stringify(ingredients));
     steps && recipe.append("steps", JSON.stringify(steps));
-    values.private && recipe.append("private", values.private);
+    recipe.append("private", values.private);
     values.photo && recipe.append("photo", values.photo);
 
     if (values.name && values.servings && checkFilledFields()) {
       createRecipe(recipe).then((data) => {
         if (data.err) {
-          console.log(data);
+          console.log(data.err);
         } else {
           setValues({ ...values, dialogOpen: true });
         }

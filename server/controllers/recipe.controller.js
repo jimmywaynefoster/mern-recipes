@@ -13,6 +13,7 @@ const create = (req, res) => {
         error: "Photo could not be uploaded",
       });
     }
+
     if (files.photo) {
       recipeValues = {
         name: fields.name,
