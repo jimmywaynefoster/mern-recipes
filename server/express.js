@@ -84,7 +84,8 @@ passport.use(
     {
       clientID: config.googleClientId,
       clientSecret: config.googleClientSecret,
-      callbackURL: "http://localhost:3000/auth/google/my-recipies-app",
+      callbackURL:
+        "https://my-recipes-app-vl.herokuapp.com/auth/google/my-recipies-app",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function (accessToken, refreshToken, profile, done) {
@@ -125,7 +126,8 @@ passport.use(
     {
       clientID: config.facebookAppId,
       clientSecret: config.facebookAppSecret,
-      callbackURL: "http://localhost:3000/auth/facebook/my-recipies-app",
+      callbackURL:
+        "https://my-recipes-app-vl.herokuapp.com/auth/facebook/my-recipies-app",
       profileFields: ["id", "emails", "displayName"],
     },
     function (accessToken, refreshToken, profile, done) {
